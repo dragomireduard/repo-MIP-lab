@@ -14,12 +14,14 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer studentId;
+    private Integer id;
 
 
     private String firstName;
 
     private String lastName;
+
+    private String email;
 
     @ManyToOne
     @JoinColumn(name = "group_id")
