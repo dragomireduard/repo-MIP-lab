@@ -28,6 +28,6 @@ public class Student {
     private Group group;
 
 
-    private Integer cnp;
+    private Long cnp;
 
 }

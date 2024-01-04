@@ -15,9 +15,9 @@ import java.util.List;
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer subjectId;
+    private Integer id;
 
-    private String name;
+    public String name;
 
     private String shortName;
 

@@ -16,10 +16,29 @@
     </button>
 
     <!-- Navbar links -->
+<!--    <div class="collapse navbar-collapse" id="collapsibleNavbar">-->
+<!--        <ul class="navbar-nav">-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{/students}">Student Management</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{/teachers}">Teacher Management</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Student Management
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/students}">List of Students</a>
+                    <a class="dropdown-item" th:href="@{/students/new}">Add New Student</a>
+                </div>
+            </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/students}">Student Management</a>
+                <a class="nav-link" th:href="@{/teachers}">Teacher Management</a>
             </li>
         </ul>
     </div>
@@ -29,11 +48,13 @@
 <div class = "container">
     <div class = "row">
         <div class ="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
-            <h1 class = "text-center"> Create New Student </h1>
+            <h1 th:if="${type} == 'create'" class = "text-center"> Create New Student </h1>
+            <h1 th:if="${type} == 'update'" class = "text-center"> Update Student </h1>
             <div class = "card-body">
-                <form th:action="@{/students}" th:object = "${student}" method="POST">
+<!--                <form th:action="@{/students}" th:object = "${student}" method="POST">-->
+                <form th:action="@{${type == 'update'} ? '/students/' + ${student.id} : '/students'}" th:object="${student}" method="POST">
                     <div class ="form-group">
-                        <label> Student First Name </label>
+                        <label> First Name </label>
                         <input
                                 type = "text"
                                 name = "firstName"
@@ -44,7 +65,7 @@
                     </div>
 
                     <div class ="form-group">
-                        <label> Student Last Name </label>
+                        <label> Last Name </label>
                         <input
                                 type = "text"
                                 name = "lastName"
@@ -55,7 +76,7 @@
                     </div>
 
                     <div class ="form-group">
-                        <label> Student Email </label>
+                        <label> Email </label>
                         <input
                                 type = "text"
                                 name = "email"
@@ -66,7 +87,7 @@
                     </div>
 
                     <div class ="form-group">
-                        <label> Student CNP </label>
+                        <label> CNP </label>
                         <input
                                 type = "text"
                                 name = "email"
@@ -75,13 +96,25 @@
                                 placeholder="Enter Student CNP"
                         />
                     </div>
+                    <div class="form-group">
+                        <label for="groupSelect">Select Group</label>
+                        <select name="groupId" class="form-control" id="groupSelect" th:field="*{group.id}">
+                            <option value="">Select Group</option>
+                            <!-- Iterate over the list of available groups -->
+                            <option th:each="group : ${groups}" th:value="${group.id}" th:text="${group.name}"></option>
+                        </select>
+                    </div>
 
                     <div class = "box-footer">
-                        <button type="submit" class = "btn btn-primary">
+<!--                        <button type="submit" class = "btn btn-primary">-->
+<!--                            Submit-->
+<!--                        </button>-->
+                        <button type="submit" class="btn btn-primary" onclick="confirmSubmit()">
                             Submit
                         </button>
                     </div>
                 </form>
+
 
             </div>
         </div>
@@ -89,3 +122,25 @@
 </div>
 </body>
 </html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        function confirmSubmit(event) {
+            // Verific? dac? nu a fost selectat? nicio op?iune în câmpul de selec?ie al grupului
+            var selectedGroup = document.getElementById("groupSelect").value;
+            if (selectedGroup === "") {
+                // Afi?eaz? un mesaj de avertizare
+                alert("Please select a group!");
+                event.preventDefault(); // Oprirea trimiterii formularului
+            } else {
+                var result = confirm("Are you sure want to do this?");
+                if (!result) {
+                    event.preventDefault(); // Previne ac?iunea implicit? a formularului (trimiterea)
+                }
+            }
+        }
+
+        // Adaug? un event listener pentru submit pe formular
+        document.querySelector('form').addEventListener('submit', confirmSubmit);
+    });
+</script>

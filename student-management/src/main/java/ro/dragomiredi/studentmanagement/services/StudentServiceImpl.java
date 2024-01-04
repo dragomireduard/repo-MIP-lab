@@ -1,6 +1,9 @@
 package ro.dragomiredi.studentmanagement.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ro.dragomiredi.studentmanagement.entities.Student;
 import ro.dragomiredi.studentmanagement.repositories.StudentRepository;
@@ -32,6 +35,7 @@ public class StudentServiceImpl implements StudentService{
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setGroup(student.getGroup());
+        studentToUpdate.setEmail(student.getEmail());
         studentToUpdate.setCnp(student.getCnp());
         return studentRepository.save(studentToUpdate);
     }
@@ -41,4 +45,6 @@ public class StudentServiceImpl implements StudentService{
         Student studentToDelete = getStudentsById(studentId);
         studentRepository.delete(studentToDelete);
     }
+
+
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ro.dragomiredi.studentmanagement.entities.Student;
+import ro.dragomiredi.studentmanagement.services.GroupService;
 import ro.dragomiredi.studentmanagement.services.StudentService;
 
 
@@ -12,6 +13,7 @@ import ro.dragomiredi.studentmanagement.services.StudentService;
 @RequestMapping("/students")
 @RequiredArgsConstructor
 public class StudentController {
+    private final GroupService groupService;
     private final StudentService studentService;
 
     @GetMapping
@@ -23,7 +25,9 @@ public class StudentController {
     @GetMapping("/edit/{id}")
     public String editStudentForm(@PathVariable Integer id, Model model) {
         model.addAttribute("student", studentService.getStudentsById(id));
-        return "edit_student";
+        model.addAttribute("groups", groupService.getAllGroups());
+        model.addAttribute("type", "update");
+        return "create_student";
     }
 
     @PostMapping("/{id}")
@@ -39,6 +43,9 @@ public class StudentController {
         // create student object to hold student form data
         Student student = new Student();
         model.addAttribute("student", student);
+        model.addAttribute("groups", groupService.getAllGroups());
+
+        model.addAttribute("type", "create");
         return "create_student";
     }
 
@@ -48,9 +55,10 @@ public class StudentController {
         return "redirect:/students";
     }
 
-    @DeleteMapping("/{studentId}")
+    @GetMapping("/{studentId}")
     public String deleteStudentById(@PathVariable Integer studentId){
         studentService.deleteStudentById(studentId);
         return "redirect:/students";
     }
+
 }

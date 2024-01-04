@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer groupId;
+    private Integer id;
 
     private String name;
 

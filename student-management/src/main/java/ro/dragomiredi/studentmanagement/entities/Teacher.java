@@ -15,7 +15,7 @@ import java.util.List;
 public class Teacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer teacherId;
+    private Integer id;
 
     private String firstName;
 

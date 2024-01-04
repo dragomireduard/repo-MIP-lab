@@ -32,7 +32,7 @@ public class SubjectServiceImpl implements SubjectService{
         subjectToUpdate.setName(subject.getName());
         subjectToUpdate.setShortName(subject.getShortName());
         subjectToUpdate.setCredits(subject.getCredits());
-        subjectToUpdate.setTeachers(subject.getTeachers());
+
         return subjectRepository.save(subjectToUpdate);
 
     }
